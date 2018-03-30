@@ -1,0 +1,195 @@
+    function get_cookie($url_,$params_,$referer_){
+
+
+        $this_header = array("content-type: application/x-www-form-urlencoded; charset=UTF-8");//访问链接时要发送的头信息
+
+        $ch = curl_init($url_);//这里是初始化一个访问对话，并且传入url，这要个必须有
+
+        //curl_setopt就是设置一些选项为以后发起请求服务的
+
+
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$this_header);//一个用来设置HTTP头字段的数组。使用如下的形式的数组进行设置： array('Content-type: text/plain', 'Content-length: 100')
+        curl_setopt($ch, CURLOPT_HEADER,1);//如果你想把一个头包含在输出中，设置这个选项为一个非零值，我这里是要输出，所以为 1
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);//对认证证书来源的检查，不开启次功能
+
+        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);//将 curl_exec()获取的信息以文件流的形式返回，而不是直接输出。设置为0是直接输出
+
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);//设置跟踪页面的跳转，有时候你打开一个链接，在它内部又会跳到另外一个，就是这样理解
+
+        curl_setopt($ch,CURLOPT_POST,1);//开启post数据的功能，这个是为了在访问链接的同时向网页发送数据，一般数urlencode码
+
+        curl_setopt($ch,CURLOPT_POSTFIELDS,$params_); //把你要提交的数据放这
+
+        curl_setopt($ch, CURLOPT_COOKIEJAR, 'cookie.txt');//获取的cookie 保存到指定的 文件路径，我这里是相对路径，可以是$变量
+
+        //curl_setopt($ch, CURLOPT_COOKIEFILE, 'cookie.txt');//要发送的cookie文件，注意这里是文件，还一个是变量形式发送
+
+        //curl_setopt($curl, CURLOPT_COOKIE, $this->cookies);//例如这句就是设置以变量的形式发送cookie，注意，这里的cookie变量是要先获取的，见下面获取方式
+
+        curl_setopt ($ch, CURLOPT_REFERER,$referer_); //在HTTP请求中包含一个'referer'头的字符串。告诉服务器我是从哪个页面链接过来的，服务器籍此可以获得一些信息用于处理。
+
+        $content=curl_exec($ch);     //重点来了，上面的众多设置都是为了这个，进行url访问，带着上面的所有设置
+
+        if(curl_errno($ch)){
+            echo 'Curl error: '.curl_error($ch);exit(); //这里是设置个错误信息的反馈
+        }
+
+        if($content==false){
+            echo "get_content_null";exit();
+        }
+
+        echo $content;
+
+        preg_match('/Set-Cookie:(.*);/iU',$content,$str); //这里采用正则匹配来获取cookie并且保存它到变量$str里，这就是为什么上面可以发送cookie变量的原因
+
+        $cookie = $str[1]; //获得COOKIE（SESSIONID）
+
+        curl_close($ch);//关闭会话
+
+        return     $cookie;//返回cookie
+    }
+
+
+    function post($url,$post_data,$location = 0,$reffer = null,$origin = null,$host = null){
+
+            $post_data = is_array($post_data)?http_build_query($post_data):$post_data;
+            //产生一个urlencode之后的请求字符串，因为我们post，传送给网页的数据都是经过处理，一般是urlencode编码后才发送的
+
+            $header = array( //头部信息，上面的函数已说明
+                ':authority:www.toutiao.com',
+                ':method:POST',
+                ':path:/api/comment/digg/',
+                ':scheme:https',
+                'accept:text/javascript, text/html, application/xml, text/xml, */*',
+                'accept-encoding:gzip, deflate, br',
+                'accept-language:zh-CN,zh;q=0.9',
+                'Connection:keep-alive',
+                'content-type:application/x-www-form-urlencoded',
+                //'CLIENT-IP:'.$ip,
+                //'X-FORWARDED-FOR:'.$ip,
+                'x-csrftoken:undefined',
+                'x-requested-with:XMLHttpRequest'
+            );
+
+            //下面的都是头部信息的设置，请根据他们的变量名字，对应上面函数所说明
+            if($host){
+                $header = array_merge_recursive($header,array("Host:".$host));
+            }
+            else if($this->option["host"]){
+                $header = array_merge_recursive($header,array("Host:".$this->option["host"]));
+            }
+            if($origin){
+                $header = array_merge_recursive($header,array("Origin:".$origin));
+            }
+            else{
+                $header = array_merge_recursive($header,array("Origin:".$url));
+            }
+            if($reffer){
+                $header = array_merge_recursive($header,array("Referer:".$reffer));
+            }
+            else{
+                $header = array_merge_recursive($header,array("Referer:".$url));
+            }
+
+            $header = array_merge_recursive($header,array("user-agent:".$this->useragent));
+
+            $curl = curl_init();  //这里并没有带参数初始化
+
+            curl_setopt($curl, CURLOPT_URL, $url);//这里传入url
+
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);//对认证证书来源的检查，不开启次功能
+
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);//从证书中检测 SSL 加密算法
+
+            curl_setopt($curl, CURLOPT_USERAGENT, $this->useragent);
+            //模拟用户使用的浏览器，自己设置，我的是"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:23.0) Gecko/20100101 Firefox/23.0"
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, $location);
+
+            curl_setopt($curl, CURLOPT_AUTOREFERER, 1);//自动设置referer
+
+            curl_setopt($curl, CURLOPT_POST, 1);//开启post
+
+            curl_setopt($curl, CURLOPT_ENCODING, "gzip" );
+            //HTTP请求头中"Accept-Encoding: "的值。支持的编码有"identity"，"deflate"和"gzip"。如果为空字符串""，请求头会发送所有支持的编码类型。
+            //我上面设置的是*/*
+
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $post_data);//要传送的数据
+
+            //curl_setopt($curl, CURLOPT_COOKIE, $this->cookies);//以变量形式发送cookie，我这里没用它，文件保险点
+
+            curl_setopt($curl, CURLOPT_COOKIEJAR, 'cookie.txt');    //存cookie的文件名，
+
+            curl_setopt($curl, CURLOPT_COOKIEFILE, 'cookie.txt');  //发送
+
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);//设置超时限制，防止死循环
+
+            curl_setopt($curl, CURLOPT_HEADER, 1);
+
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+           /* echo "<pre>";
+            var_dump($header);
+            echo "</pre>";*/
+            $tmpInfo = curl_exec($curl);
+            if (curl_errno($curl)) {
+                echo  'Curl error: ' . curl_error ( $curl );exit();
+            }
+
+            curl_close($curl);
+            list($header, $body) = explode("\r\n\r\n", $tmpInfo, 2);//分割出网页源代码的头和bode
+            //$tmpInfo = $this->auto_charest($tmpInfo);//转码，防止乱码，自定义函数
+            return array("header"=>$header,"body"=>$body,"content"=>$tmpInfo);
+        }
+
+
+    public function bk(){
+        //echo $this->get_cookie('https://www.toutiao.com/','','');
+        $postData['comment_id']='1594700692109319';
+        $postData['dongtai_id']='1594700692109319';
+        $postData['group_id']='6531870496378585603';
+        $postData['item_id']='6531870496378585603';
+        $postData['action']='digg';
+        $res=$this->post("https://www.toutiao.com/api/comment/digg/",$postData,0,'https://www.toutiao.com/a6531870496378585603/','https://www.toutiao.com','https://www.toutiao.com');
+        var_dump($res);
+    }
+
+
+    var myWindow=$('.iframe_like').attr("src",$("[name=input_like_link]").val());
+    setTimeout(function(){
+        $(".iframe_like").contents().find(".c-digg").each(function(){
+            alert("准备点赞");
+            $(this).click();
+            return false;
+        });
+    },5000);
+
+
+
+    <div class="flex-center position-ref full-height">
+        @if (Route::has('login'))
+            <div class="top-right links">
+                @auth
+                    <a href="{{ url('/home') }}">Home</a>
+                @else
+                    <a href="{{ route('login') }}">Login</a>
+                    <a href="{{ route('register') }}">Register</a>
+                @endauth
+            </div>
+        @endif
+
+        <div class="content">
+            <div class="title m-b-md">
+                Laravel
+            </div>
+
+            <div class="links">
+                <a href="https://laravel.com/docs">Documentation</a>
+                <a href="https://laracasts.com">Laracasts</a>
+                <a href="https://laravel-news.com">News</a>
+                <a href="https://forge.laravel.com">Forge</a>
+                <a href="https://github.com/laravel/laravel">GitHub</a>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,92 @@
+/**
+https://www.toutiao.com/api/comment/list/?group_id=".$articleId."&item_id=".$articleId."&offset=0&count=5
+获取评论列表
+*/
+{
+	"message": "success",
+	"data": {
+		"has_more": true,
+		"total": 36,
+		"comments": [{
+			"text": "企鹅号是什么，怎么申请注册",
+			"digg_count": 9,
+			"reply_data": {
+				"reply_list": []
+			},
+			"reply_count": 1,
+			"create_time": 1519927715,
+			"user": {
+				"avatar_url": "https://p1.pstatp.com/thumb/66b10003995b430e9d39",
+				"user_id": 6855460430,
+				"name": "TAMG文轩阁"
+			},
+			"dongtai_id": 1593759723544580,
+			"user_digg": 0,
+			"id": 1593759723544580
+		}, {
+			"text": "分析得对",
+			"digg_count": 1,
+			"reply_data": {
+				"reply_list": []
+			},
+			"reply_count": 0,
+			"create_time": 1520327080,
+			"user": {
+				"avatar_url": "https://q.qlogo.cn/qqapp/100290348/351F779DD59AFA569474796023365880/100",
+				"user_id": 77839066684,
+				"name": "专业装修设计254598302"
+			},
+			"dongtai_id": 1594178488151054,
+			"user_digg": 0,
+			"id": 1594178488151054
+		}, {
+			"text": "互赞互助 不忘初心",
+			"digg_count": 3,
+			"reply_data": {
+				"reply_list": []
+			},
+			"reply_count": 0,
+			"create_time": 1519796672,
+			"user": {
+				"avatar_url": "https://q.qlogo.cn/qqapp/100290348/1BA448A4BFFB3F77F7C599149ED33950/100",
+				"user_id": 5856805941,
+				"name": "快乐的小怪兽68707392"
+			},
+			"dongtai_id": 1593622314485764,
+			"user_digg": 0,
+			"id": 1593622314485764
+		}, {
+			"text": "诚信互抱！ 暖暖和和的！",
+			"digg_count": 6,
+			"reply_data": {
+				"reply_list": []
+			},
+			"reply_count": 1,
+			"create_time": 1517755249,
+			"user": {
+				"avatar_url": "https://p3.pstatp.com/thumb/66c500045e6b4f4c456e",
+				"user_id": 5949576969,
+				"name": "乔巴君"
+			},
+			"dongtai_id": 1591481727659011,
+			"user_digg": 0,
+			"id": 1591481727659011
+		}, {
+			"text": "互抱取暖",
+			"digg_count": 2,
+			"reply_data": {
+				"reply_list": []
+			},
+			"reply_count": 0,
+			"create_time": 1519430083,
+			"user": {
+				"avatar_url": "https://p3.pstatp.com/thumb/658e001f7216ec6f4a5d",
+				"user_id": 57470154234,
+				"name": "南南的可乐"
+			},
+			"dongtai_id": 1593237919143939,
+			"user_digg": 0,
+			"id": 1593237919143939
+		}]
+	}
+}

@@ -1,0 +1,158 @@
+#div_main_window{
+    width: 700px;
+    height: 500px;
+    border: 1px solid #cec6c6;
+    overflow: scroll;
+}
+.left_main{
+    cursor: pointer;
+    width:202px ;
+}
+
+.nav_main{
+    width: 200px;
+    height: 700px;
+    border: 1px solid #cec6c6;
+}
+.nav_main div{
+    height: 57px;
+    background: white;
+    border-bottom:1px solid #cec6c6 ;
+    text-align: center;
+    line-height: 57px;
+}
+.nav_main div:hover{
+    background: rgba(232, 32, 12, 0.71);
+    color: white;
+}
+
+.right_main{
+    margin-left: 1rem;
+    margin-bottom: 100px;
+}
+
+.top_main{
+    height: 60px;
+    position: absolute;
+    background: #ff7474;
+    width: 100%;
+    top: 0px;
+    line-height: 60px;
+    font-size: 2rem;
+    padding-left: 1rem;
+    color: white;
+}
+
+.top_main div{
+    border-left: 1px solid #cec6c6;
+    width: 120px;
+    height: 50px;
+    text-align: center;
+    line-height:50px ;
+}
+.top_main_parent{
+    text-align: center;
+}
+
+.right_main input[type="text"]{
+    width: 500px;
+}
+
+.right_main input[type="number"]{
+    width: 200px;
+}
+
+.right_main_form {
+    margin-top:1rem;
+    text-align:left;
+}
+
+.left_right_main{
+    display: inline-flex;
+    width: 100%;
+    margin-top: 6rem;
+}
+
+.top_main img{
+    width: 4rem;
+    border-radius: 50px;
+}
+.top_main span{
+    margin-left: 1rem;
+}
+
+.following_ul{
+    list-style-type: none;
+    margin:0px;
+    padding:0px;
+}
+
+.following_ul li{
+    margin: 7px;
+    margin-left: 30px;
+    padding: 5px;
+    float: left;
+    text-align: center;
+}
+
+.following_ul li img{
+    border-radius: 500px;
+    cursor:pointer;
+}
+
+.div_main_window_follow{
+    width: 700px;
+    border: 1px solid #cec6c6;
+}
+
+#following_user_info{
+    position: absolute;
+    top: 100px;
+    left: 40%;
+    z-index: 1000;
+    width: 300px;
+    height: 500px;
+    display:none;
+}
+
+
+.extraInfo {
+    position: absolute;
+    margin-top: -7rem;
+    width: 10rem;
+    text-align: center;
+    background: #b6bfbd;
+    border-radius: 10px;
+}
+
+
+.extraInfo a{
+    cursor: pointer;
+}
+
+
+.div-article{
+    position: fixed;
+    width: 500px;
+    height: 600px;
+    background: #f7f3f3;
+    left: 40%;
+    top: 5%;
+    overflow-y: scroll;
+    display: none;
+}
+
+.div-article_close{
+    text-align: right;
+    padding: 10px;
+    cursor: pointer;
+}
+
+a{
+    cursor: pointer;
+}
+
+ul{
+    list-style-type: none;
+}
+
