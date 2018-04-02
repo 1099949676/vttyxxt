@@ -98,13 +98,35 @@ class UserController extends Controller
         echo $ret;
     }
 
-    function curl_get($url)
+    function curl_get($url,$header=null,$type=1)
     {
+
         $curl = curl_init(); // 启动一个CURL会话
+
+        if($header){
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $header);
+        }
+
+        $cookie_file = dirname(__FILE__).'/cookie.txt';
+
+        if($type==1){
+
+
+            curl_setopt($curl, CURLOPT_COOKIEJAR,  $cookie_file);
+
+        }else{
+            curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
+        }
+
+
+
+
+
         curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HEADER, 0);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // 跳过证书检查
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE); // 跳过证书检查
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);  // 从证书中检查SSL加密算法是否存在
         $tmpInfo = curl_exec($curl);     //返回api的json对象
         curl_close($curl);
@@ -175,6 +197,76 @@ class UserController extends Controller
         echo $ret;
     }
 
+    public function getTouTiaoLoginIndex(){
+        $url="https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=JTJG";
+        echo $this->curl_get($url,'https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=/');
+    }
+
+    public function getImgCode(){
+        $url="https://sso.toutiao.com/refresh_captcha/";
+        $header=array(
+            "Referer: https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=JTJG",
+            "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",
+            "Host: sso.toutiao.com",
+            "Connection: keep-alive",
+            "Content-Type: application/x-www-form-urlencoded",
+            "X-Requested-With: XMLHttpRequest"
+        );
+        echo $this->curl_get($url,$header);
+    }
+
+    public function getCode(){
+        $url="https://sso.toutiao.com/send_activation_code/";
+        $input=request()->all();
+        $data=$this->arrayToStringParam($input);
+        $url=$url."?".$data;
+        $header=array(
+            "Referer: https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=JTJG",
+            "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",
+            "Host: sso.toutiao.com",
+            "Connection: keep-alive",
+            "Content-Type: application/x-www-form-urlencoded",
+            "X-Requested-With: XMLHttpRequest"
+        );
+        echo $this->curl_get($url,$header,2);
+
+    }
+
+    public function quickLogin(){
+        $url="https://sso.toutiao.com/quick_login/";
+        $input=request()->all();
+        $data=$this->arrayToStringParam($input);
+        $header=array(
+            "Referer: https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=JTJG",
+            "User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3325.181 Safari/537.36",
+            "Host: sso.toutiao.com",
+            "Connection: keep-alive",
+            "Content-Type: application/x-www-form-urlencoded",
+            "X-Requested-With: XMLHttpRequest"
+        );
+
+        $maincookie = dirname(__FILE__).'/maincookie.txt';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_COOKIEJAR,  $maincookie);
+        $res= curl_setopt ($ch, CURLOPT_URL,$url);
+        $cookie_file = dirname(__FILE__).'/cookie.txt';
+        curl_setopt($ch, CURLOPT_COOKIEFILE, $cookie_file);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt ($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_HTTPHEADER,$header);
+        $result = curl_exec ($ch);
+        curl_close($ch);
+        if ($result == NULL) {
+            return 0;
+        }
+        echo  $result;
+
+    }
+
     private function attayToStringCookie($cookie){
         $count=count($cookie);
         $i=1;
@@ -191,6 +283,9 @@ class UserController extends Controller
         }
         return $string;
     }
+
+
+
 
     private function arrayToStringParam($data){
         $i=0;

@@ -61,6 +61,19 @@ Route::get('/user/getUserArticle', 'UserController@getUserArticle');
 
 Route::get('/user/commentArticle', 'UserController@commentArticle');
 
+Route::get('/user/getImgCode', 'UserController@getImgCode');
+
+Route::get('/user/getTouTiaoLoginIndex', 'UserController@getTouTiaoLoginIndex');
+
+Route::get('/user/getCode', 'UserController@getCode');
+
+
+Route::get('/user/quickLogin', 'UserController@quickLogin');
+
+
+
+
+
 
 Route::get('/cookie', function(){
     return view('cookie');
