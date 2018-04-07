@@ -203,7 +203,7 @@
                                         +title
                                         +"<br>"
                                         +'<input type="text"/><br>'
-                                        +'<a onclick="commentArticle(this,\''+data[i].item_id+'\')">回复</a>&nbsp;&nbsp;<a onclick="showArticle(\''+data[i].item_id+'\')">查看文章</a><br><br>'
+                                        +'<a onclick="commentArticle(this,\''+data[i].item_id+'\',\''+data[i].display_url+'\')">回复</a>&nbsp;&nbsp;<a onclick="showArticle(\''+data[i].display_url+'\')">查看文章</a><br><br>'
                                 +'</li>'
                         )
                     }
@@ -218,7 +218,7 @@
         });
     }
 
-    function commentArticle(obj,id){
+    function commentArticle(obj,id,url){
         var commentContent=$(obj).parent().find('input').val();
         if(!commentContent){
             alert("内容不能为空！");
@@ -231,20 +231,21 @@
             'item_id':id,
             'id':0,
             'format':'json',
-            'aid':24
+            'aid':24,
+            'display_url':url
         };
         var url="{{ url('/user/commentArticle')}}";
-        var data=getAjaxData(url,param);
-        console.log(data);
-        if(data!=null&&data.message=='success'){
-            alert("评论成功！");
-        }else{
-            alert("评论失败！")
-        }
+        $.getJSON(url,param,function(data){
+            if(data!=null&data.message=='success'){
+                alert("评论成功！");
+            }else{
+                alert("评论失败！")
+            }
+        });
     }
 
-    function showArticle(id){
-        window.open("{{config('tt_link.articleDetailLink')}}"+id+"/",'_bliank');
+    function showArticle(url){
+        window.open(url,'_bliank');
     }
 </script>
 

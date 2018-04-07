@@ -28,13 +28,14 @@ return [
         "x-requested-with:XMLHttpRequest"
     ),
 
-    'commentArticle'=>array(":authority:www.toutiao.com",
+    'commentArticle'=>array(
+        ":authority:www.toutiao.com",
         ":method:POST",
+        "Host: www.toutiao.com",
         ":path: /api/comment/post_comment/",
         ":scheme:https",
-        "accept:text/javascript, text/html, application/xml, text/xml, */*",
         "accept-language:zh-CN,zh;q=0.9",
-        "content-length:151",
+        /*"content-length:151",*/
         "content-type:application/x-www-form-urlencoded",
         "origin:https://www.toutiao.com",
         "referer:https://www.toutiao.com/",

@@ -19,4 +19,12 @@ return [
     'userArticle' => 'https://www.toutiao.com/c/user/article/' ,//用户文章基础链接
 
     'userToutiaoIndexLink' => 'https://www.toutiao.com/c/user/' ,//用户头条主页
+
+    'toutiaoLoginIndex'=>'https://sso.toutiao.com/login/?service=https://mp.toutiao.com/sso_confirm/?redirect_url=JTJG',//头条号后台登录指向
+
+    'refreshCaptcha'=>'https://sso.toutiao.com/refresh_captcha/',   //获取图片验证码就接口
+
+    'sendActivationCode'=>'https://sso.toutiao.com/send_activation_code/',  //获取短信验证码接口
+
+    'quickLogin'=>'https://sso.toutiao.com/quick_login/',   //模拟登陆post地址
 ];

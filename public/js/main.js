@@ -1,5 +1,12 @@
 function getAjaxData(url,param){
-    $.ajax({
+
+    $.get(url,param,function(data){
+        return data;
+    });
+
+
+
+    /*$.ajax({
         url:url,
         async:false,
         data:param,
@@ -10,5 +17,5 @@ function getAjaxData(url,param){
         },error:function(){
             return null;
         }
-    });
+    });*/
 }

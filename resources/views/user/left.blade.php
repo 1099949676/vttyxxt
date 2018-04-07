@@ -1,14 +1,14 @@
 <div class="nav_main">
     <div id="index">主页</div>
-    <div id="denglu" class="button_login">登录</div>
-    <div id="fensi">粉丝数量</div>
-    <div id="houtai">进入后台</div>
-    <div id="dianzan">点赞</div>
-    <div id="pinglun">评论</div>
-    <div id="guanzhu">关注</div>
-    <div id="weitoutiao">微头条</div>
-    <div id="tongji">统计</div>
-    <div id="wode">我的账号</div>
+    <div id="login" class="button_login">登录</div>
+    <div id="followed">粉丝数量</div>
+    <div id="admin">进入后台</div>
+    <div id="like">点赞</div>
+    <div id="comment">评论</div>
+    <div id="following">关注</div>
+    <div id="wArticle">微头条</div>
+    <div id="statistics">统计</div>
+    <div id="myCenter">我的账号</div>
     <div id="qita1">其他1</div>
     <div id="qita2">其他2</div>
 </div>
